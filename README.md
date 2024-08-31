@@ -1,5 +1,5 @@
 # Nourish-Now
- Why Nourish Us?
+ - Why Nourish Us?
 At Nourish Us, we believe that no one in Singapore should go hungry. Our mission is to bridge the gap between those with surplus food and those in need by creating a community-driven platform that empowers individuals, businesses, and volunteers to make a tangible difference. Through innovative solutions like real-time food matching, hyper-local distribution networks (a local food hub?), and engaging gamification features(might not include), we’re tackling food insecurity head-on, ensuring that everyone has access to nutritious meals. Join us in creating a more food-secure Singapore—because when we nourish each other, we nourish our future.
 - Who Are We?
 Nourish Us is a dedicated team of changemakers committed to addressing food insecurity in Singapore. We are a diverse group of innovators, volunteers, and community members united by a common goal: to eliminate hunger and reduce food waste. Our platform connects donors, recipients, and volunteers, fostering a collaborative environment where everyone can contribute to a healthier, more sustainable community. With strong partnerships and a deep understanding of local needs, we are here to make sure that no one in Singapore goes without the nourishment they deserve.
