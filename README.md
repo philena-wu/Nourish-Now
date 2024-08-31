@@ -16,7 +16,7 @@ Who needs food
 - How much food
 - dietary restrictions
 - collection (nearest address, generate nearest outlet) or delivery (and reason)
-IF : DONOR (signups required) 
+OR IF : DONOR (signups required) 
 - Company + address, what kind of food they are providing, physical location (pack up food and send)
 Do you want to be a volunteer? 
 
