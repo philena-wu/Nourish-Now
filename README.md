@@ -40,7 +40,7 @@ Nourish Us is a dedicated team of changemakers committed to addressing food inse
 4. F&B or hospitality related enterprises
 5. Food banks, etc.
 
-# Website idea
+# Website idea (PEACETIME) 
  - First page 
 // Functions:
 - Are you a : Recipient or Donor
@@ -59,6 +59,8 @@ Do you want to be a volunteer?
 - availability sheet
 - sign up form (age, no., email, address, etc.)
 
+# Website idea (WAR TIME)
+- food desert 
 # Other ideas
 Include navigation bar 
 Leaderboard system (motivation) → receive certificates to thank for their service 
