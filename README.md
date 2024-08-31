@@ -60,14 +60,15 @@ Do you want to be a volunteer?
 - sign up form (age, no., email, address, etc.)
 
 # Website idea (WAR TIME)
-- food desert 
+- a form stating why they can't go to the ration center to collect food
+- "food desert" --> map to show places with food insecurity 
 # Other ideas
 Include navigation bar 
 Leaderboard system (motivation) → receive certificates to thank for their service 
 Gamification : the more u donate the more points u have, CDC voucher 
 Intro the page 
 Crowdsource data : gathering data from a large group of people (statistics)
-X factor : Whatsapp group chat based on community 
+X factor : Whatsapp group chat based on community, a reward system 
 Volunteer 
 Why Nourish Now? 
 Our partners 
