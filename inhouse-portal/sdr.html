@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
     <title>SDR Dashboard</title>
     <style>
         body {
@@ -82,21 +81,54 @@
             font-size: 1em;
             margin-bottom: 10px;
         }
-        .card .graph-container {
+        .card canvas {
             width: 100%;
             height: 200px;
-            background-color: #f3f4f6;
             border-radius: 8px;
+        }
+        .todo-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .todo-list li {
+            padding: 10px;
+            background-color: #f3f4f6;
+            margin-bottom: 10px;
+            border-radius: 5px;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
+        }
+        .todo-list li span {
+            flex: 1;
+        }
+        .todo-list li button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .todo-list li button:hover {
+            background-color: #388e3c;
+        }
+        .feature-number {
+            font-size: 8em;
+            font-weight: bold;
             color: #4caf50;
+        }
+        .feature-label {
+            font-size: 1.2em;
+            color: #555;
         }
         .table-container {
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
+            margin-top: 20px;
         }
         .filter-container {
             margin-bottom: 20px;
@@ -143,12 +175,8 @@
         .client-table tr:hover {
             background-color: #f5f7fa;
         }
-        @media (max-width: 768px) {
-            .card {
-                width: 100%;
-            }
-        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -165,26 +193,33 @@
 
         <div class="section">
             <div class="cards-container">
+                <!-- Real-Time Stock Graph Card -->
                 <div class="card">
-                    <h2>Real-Time Stock Graph</h2>
-                    <div class="graph-container">
-                        <p>Graph Placeholder</p>
-                    </div>
+                    <h2>Price of Corn</h2>
+                    <canvas id="stockGraph"></canvas>
                 </div>
+
+                <!-- To-Do List Card -->
                 <div class="card">
-                    <h2>Urgent Tasks</h2>
-                    <div class="graph-container">
-                        <p>Graph Placeholder</p>
-                    </div>
+                    <h2>To-Do List</h2>
+                    <ul class="todo-list" id="todoList">
+                        <li><span>Follow up with Client A</span> <button onclick="removeTask(this)">Done</button></li>
+                        <li><span>Prepare report for Client B</span> <button onclick="removeTask(this)">Done</button></li>
+                        <li><span>Call Supplier X</span> <button onclick="removeTask(this)">Done</button></li>
+                    </ul>
+                    <input type="text" id="newTask" placeholder="New Task">
+                    <button onclick="addTask()">Add</button>
                 </div>
+
+                <!-- Feature Card -->
                 <div class="card">
-                    <h2>Feature</h2>
-                    <div class="graph-container">
-                        <p>Graph Placeholder</p>
-                    </div>
+                    <h2>Impact Tracker</h2>
+                    <div class="feature-number">150</div>
+                    <div class="feature-label">tonnes of food reduced</div>
                 </div>
             </div>
 
+            <!-- Client Table -->
             <div class="table-container">
                 <div class="filter-container">
                     <input type="text" id="filter" placeholder="Search Clients...">
@@ -229,6 +264,60 @@
                             <td>2024-07-15</td>
                             <td><button>Generate Report</button></td>
                         </tr>
+                        <tr>
+                            <td>Client D</td>
+                            <td>Alice Brown</td>
+                            <td>alice@example.com</td>
+                            <td>+321 654 9870</td>
+                            <td>Active</td>
+                            <td>2024-09-02</td>
+                            <td><button>Generate Report</button></td>
+                        </tr>
+                        <tr>
+                            <td>Client E</td>
+                            <td>Charlie Green</td>
+                            <td>charlie@example.com</td>
+                            <td>+654 321 7890</td>
+                            <td>Pending</td>
+                            <td>2024-08-28</td>
+                            <td><button>Generate Report</button></td>
+                        </tr>
+                        <tr>
+                            <td>Client F</td>
+                            <td>Diana White</td>
+                            <td>diana@example.com</td>
+                            <td>+123 789 4560</td>
+                            <td>Inactive</td>
+                            <td>2024-07-20</td>
+                            <td><button>Generate Report</button></td>
+                        </tr>
+                        <tr>
+                            <td>Client G</td>
+                            <td>Edward Black</td>
+                            <td>edward@example.com</td>
+                            <td>+987 321 6540</td>
+                            <td>Active</td>
+                            <td>2024-09-03</td>
+                            <td><button>Generate Report</button></td>
+                        </tr>
+                        <tr>
+                            <td>Client H</td>
+                            <td>Fiona Blue</td>
+                            <td>fiona@example.com</td>
+                            <td>+654 987 1230</td>
+                            <td>Pending</td>
+                            <td>2024-08-27</td>
+                            <td><button>Generate Report</button></td>
+                        </tr>
+                        <tr>
+                            <td>Client I</td>
+                            <td>George Yellow</td>
+                            <td>george@example.com</td>
+                            <td>+321 987 6540</td>
+                            <td>Inactive</td>
+                            <td>2024-07-25</td>
+                            <td><button>Generate Report</button></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -236,16 +325,75 @@
     </div>
 
     <script>
-        // Simple filter functionality for the table
-        document.getElementById('filter').addEventListener('input', function() {
-            const filterValue = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#client-table tbody tr');
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                const match = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(filterValue));
-                row.style.display = match ? '' : 'none';
-            });
-        });
+        // Function to generate a random walk for stock prices
+    function generateRandomWalkData(startPrice, numPoints) {
+        const prices = [startPrice];
+        for (let i = 1; i < numPoints; i++) {
+            const change = (Math.random() - 0.5) * 2; // Random change between -1 and +1
+            const newPrice = prices[i - 1] + change;
+            prices.push(newPrice > 0 ? newPrice : prices[i - 1]); // Ensure price stays positive
+        }
+        return prices;
+    }
+
+    const numPoints = 30; // Number of data points (e.g., days)
+    const startPrice = 150; // Starting stock price
+
+    // Generate random walk data for the stock prices
+    const stockPrices = generateRandomWalkData(startPrice, numPoints);
+
+    // Real-Time Stock Graph using Chart.js with random walk data
+    const ctx = document.getElementById('stockGraph').getContext('2d');
+    const stockGraph = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: Array.from({ length: numPoints }, (_, i) => `Day ${i + 1}`),
+            datasets: [{
+                label: 'Stock Price',
+                data: stockPrices,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Day'
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Price ($)'
+                    }
+                }
+            }
+        }
+    });
+
+        // To-Do List JavaScript functions
+        function addTask() {
+            const newTaskInput = document.getElementById('newTask');
+            const taskText = newTaskInput.value.trim();
+            if (taskText !== '') {
+                const taskList = document.getElementById('todoList');
+                const newTask = document.createElement('li');
+                newTask.innerHTML = `<span>${taskText}</span> <button onclick="removeTask(this)">Done</button>`;
+                taskList.appendChild(newTask);
+                newTaskInput.value = '';
+            }
+        }
+
+        function removeTask(button) {
+            const taskItem = button.parentElement;
+            taskItem.remove();
+        }
     </script>
 </body>
 </html>
