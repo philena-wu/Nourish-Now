@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Import Forecast</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            background-color: #eaf2e3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            color: #4d4d4d;
+        }
+        .dashboard-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px;
+        }
+        .navbar {
+            background-color: #4caf50;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .navbar h1 {
+            font-size: 1.8em;
+            color: #ffffff;
+            margin: 0;
+            font-weight: 400;
+            flex: 1;
+        }
+        .navbar .tabs {
+            display: flex;
+            align-items: center;
+        }
+        .navbar .tabs a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1em;
+            margin: 0 15px;
+            padding: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .navbar .tabs a:hover {
+            background-color: #388e3c;
+        }
+        .navbar .tabs a.active {
+            background-color: #388e3c;
+        }
+        .section {
+            margin-top: 20px;
+        }
+        .table-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .filter-container input {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .filter-container select {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f3f4f6;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        .supplier-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .supplier-table th,
+        .supplier-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e4e6eb;
+        }
+        .supplier-table th {
+            background-color: #f3f4f6;
+            color: #4caf50;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        .supplier-table th:hover {
+            background-color: #eaf2e3;
+        }
+        .supplier-table td button {
+            padding: 8px 15px;
+            background-color: #2e8540;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+        .supplier-table td button:hover {
+            background-color: #276836;
+        }
+        .supplier-table tr:hover {
+            background-color: #f5f7fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="navbar">
+            <h1>Supplier Import Forecast</h1>
+            <div class="tabs">
+                <a href="#" class="active">Home</a>
+                <a href="#">Imports</a>
+                <a href="#">Suppliers</a>
+                <a href="#">Reports</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="table-container">
+                <div class="filter-container">
+                    <input type="text" id="filter" placeholder="Search Suppliers...">
+                    <select id="sort" name="sort">
+                        <option value="name">Sort by Name</option>
+                        <option value="import-date">Sort by Import Date</option>
+                        <option value="quantity">Sort by Quantity</option>
+                    </select>
+                </div>
+                <table class="supplier-table" id="supplier-table">
+                    <thead>
+                        <tr>
+                            <th>Supplier Name</th>
+                            <th>Product Type</th>
+                            <th>Import Date</th>
+                            <th>Quantity</th>
+                            <th>Estimated Waste</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Supplier A</td>
+                            <td>Vegetables</td>
+                            <td>2024-09-05</td>
+                            <td>10,000 kg</td>
+                            <td>1,500 kg</td>
+                            <td><button>Notify Supplier</button></td>
+                        </tr>
+                        <tr>
+                            <td>Supplier B</td>
+                            <td>Vegetables</td>
+                            <td>2024-09-07</td>
+                            <td>8,000 kg</td>
+                            <td>1,200 kg</td>
+                            <td><button>Notify Supplier</button></td>
+                        </tr>
+                        <tr>
+                            <td>Supplier C</td>
+                            <td>Vegetables</td>
+                            <td>2024-09-10</td>
+                            <td>5,000 kg</td>
+                            <td>800 kg</td>
+                            <td><button>Notify Supplier</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple filter functionality for the table
+        document.getElementById('filter').addEventListener('input', function() {
+            const filterValue = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#supplier-table tbody tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const match = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(filterValue));
+                row.style.display = match ? '' : 'none';
+            });
+        });
+
+        // Simple sort functionality for the table
+        document.getElementById('sort').addEventListener('change', function() {
+            const sortBy = this.value;
+            const rowsArray = Array.from(document.querySelectorAll('#supplier-table tbody tr'));
+            rowsArray.sort((a, b) => {
+                const cellA = a.querySelector(`td:nth-child(${sortBy === 'name' ? 1 : sortBy === 'import-date' ? 3 : 4})`).textContent;
+                const cellB = b.querySelector(`td:nth-child(${sortBy === 'name' ? 1 : sortBy === 'import-date' ? 3 : 4})`).textContent;
+                if (sortBy === 'import-date' || sortBy === 'quantity') {
+                    return parseFloat(cellA) > parseFloat(cellB) ? 1 : -1;
+                }
+                return cellA.localeCompare(cellB);
+            });
+            const tbody = document.querySelector('#supplier-table tbody');
+            tbody.innerHTML = '';
+            rowsArray.forEach(row => tbody.appendChild(row));
+        });
+    </script>
+</body>
+</html>
