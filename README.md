@@ -40,7 +40,7 @@ Nourish Us is a dedicated team of changemakers committed to addressing food inse
 4. F&B or hospitality related enterprises
 5. Food banks, etc.
 
-# Website idea
+# Website idea (PEACETIME) 
  - First page 
 // Functions:
 - Are you a : Recipient or Donor
@@ -59,13 +59,16 @@ Do you want to be a volunteer?
 - availability sheet
 - sign up form (age, no., email, address, etc.)
 
+# Website idea (WAR TIME)
+- a form stating why they can't go to the ration center to collect food
+- "food desert" --> map to show places with food insecurity 
 # Other ideas
 Include navigation bar 
 Leaderboard system (motivation) → receive certificates to thank for their service 
 Gamification : the more u donate the more points u have, CDC voucher 
 Intro the page 
 Crowdsource data : gathering data from a large group of people (statistics)
-X factor : Whatsapp group chat based on community 
+X factor : Whatsapp group chat based on community, a reward system 
 Volunteer 
 Why Nourish Now? 
 Our partners 
