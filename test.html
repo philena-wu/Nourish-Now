@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
     <title>SDR Dashboard</title>
     <style>
         body {
@@ -190,6 +189,17 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Function to generate a random walk for stock prices with fluctuation
+        function generateRandomWalkData(startPrice, numPoints) {
+            const prices = [startPrice];
+            for (let i = 1; i < numPoints; i++) {
+                const change = (Math.random() - 0.5) * 5; // Random change between -2.5 and +2.5 for more fluctuation
+                const newPrice = prices[i - 1] + change;
+                prices.push(newPrice > 0 ? newPrice : prices[i - 1]); // Ensure price stays positive
+            }
+            return prices;
+        }
+
         // Generate dates for the x-axis
         function generateDates(numPoints) {
             const dates = [];
@@ -202,128 +212,136 @@
             return dates;
         }
 
-        // Function to generate a random walk for stock prices with fluctuation
-        function generateRandomWalkData(startPrice, numPoints) {
-            const prices = [startPrice];
-            for (let i = 1; i < numPoints; i++) {
-                const change = (Math.random() - 0.5) * 5; // Random change between -2.5 and +2.5 for more fluctuation
-                const newPrice = prices[i - 1] + change;
-                prices.push(newPrice > 0 ? newPrice : prices[i - 1]); // Ensure price stays positive
-            }
-            return prices;
-        }
+        const numPoints = 30; // Number of data points (e.g., days)
+        const startPrice = 150; // Starting stock price
 
-        const numPoints = 30;
-        const startPrice = 150;
-
+        // Generate random walk data for the stock prices
         const stockPrices = generateRandomWalkData(startPrice, numPoints);
-        const dates = generateDates(numPoints);
+        const dates = generateDates(numPoints); // Generate dates for the x-axis
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // Real-Time Stock Graph using Chart.js with random walk data and real dates
-            const ctx = document.getElementById('stockGraph').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: dates,
-                    datasets: [{
-                        label: 'Price of Corn ($)',
-                        data: stockPrices,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 2,
-                        fill: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        x: {
+        // Real-Time Stock Graph using Chart.js with random walk data and real dates
+        const ctx = document.getElementById('stockGraph').getContext('2d');
+        const stockGraph = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Price of Corn ($)',
+                    data: stockPrices,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
                             display: true,
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        },
-                        y: {
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
                             display: true,
-                            title: {
-                                display: true,
-                                text: 'Price ($)'
-                            }
+                            text: 'Price ($)'
                         }
                     }
                 }
-            });
-
-            // Generate random client data
-            const firstNames = ["John", "Jane", "Alice", "Bob", "Charlie", "Diana", "Edward", "Fiona", "George", "Hannah"];
-            const lastNames = ["Doe", "Smith", "Brown", "Johnson", "Green", "White", "Black", "Blue", "Yellow", "Red"];
-            const domains = ["example.com", "email.com", "mail.com", "domain.com"];
-            const statuses = ["Active", "Pending", "Inactive"];
-
-            function generateRandomPhoneNumber() {
-                const phone = '+1 ' + Math.floor(Math.random() * 900 + 100) + ' ' +
-                              Math.floor(Math.random() * 900 + 100) + ' ' +
-                              Math.floor(Math.random() * 9000 + 1000);
-                return phone;
             }
+        });
 
-            function generateRandomClient() {
-                const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-                const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-                const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${domains[Math.floor(Math.random() * domains.length)]}`;
-                const phone = generateRandomPhoneNumber();
-                const status = statuses[Math.floor(Math.random() * statuses.length)];
-                const lastInteraction = new Date(Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000)
-                    .toISOString().split('T')[0]; // Random date within last 30 days
-                return { clientName: `${firstName} ${lastName}`, contactPerson: `${firstName} ${lastName}`, email, phone, status, lastInteraction };
+        // To-Do List JavaScript functions
+        function addTask() {
+            const newTaskInput = document.getElementById('newTask');
+            const taskText = newTaskInput.value.trim();
+            if (taskText !== '') {
+                const taskList = document.getElementById('todoList');
+                const newTask = document.createElement('li');
+                newTask.innerHTML = `<span>${taskText}</span> <button onclick="removeTask(this)">Done</button>`;
+                taskList.appendChild(newTask);
+                newTaskInput.value = '';
             }
+        }
 
-            function populateClientTable() {
-                const tableBody = document.getElementById('client-table').querySelector('tbody');
-                tableBody.innerHTML = '';
-                for (let i = 0; i < 10; i++) {
-                    const client = generateRandomClient();
-                    const row = `
-                        <tr>
-                            <td>${client.clientName}</td>
-                            <td>${client.contactPerson}</td>
-                            <td>${client.email}</td>
-                            <td>${client.phone}</td>
-                            <td>${client.status}</td>
-                            <td>${client.lastInteraction}</td>
-                            <td><button>Generate Report</button></td>
-                            <td><input type="checkbox" class="notify-checkbox"></td>
-                        </tr>
-                    `;
-                    tableBody.insertAdjacentHTML('beforeend', row);
+        function removeTask(button) {
+            const taskItem = button.parentElement;
+            taskItem.remove();
+        }
+
+        // Generate random client data
+        const firstNames = ["John", "Jane", "Alice", "Bob", "Charlie", "Diana", "Edward", "Fiona", "George", "Hannah"];
+        const lastNames = ["Doe", "Smith", "Brown", "Johnson", "Green", "White", "Black", "Blue", "Yellow", "Red"];
+        const domains = ["example.com", "email.com", "mail.com", "domain.com"];
+        const statuses = ["Active", "Pending", "Inactive"];
+
+        function generateRandomPhoneNumber() {
+            const phone = '+1 ' + Math.floor(Math.random() * 900 + 100) + ' ' +
+                          Math.floor(Math.random() * 900 + 100) + ' ' +
+                          Math.floor(Math.random() * 9000 + 1000);
+            return phone;
+        }
+
+        function generateRandomClient() {
+            const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+            const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+            const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${domains[Math.floor(Math.random() * domains.length)]}`;
+            const phone = generateRandomPhoneNumber();
+            const status = statuses[Math.floor(Math.random() * statuses.length)];
+            const lastInteraction = new Date(Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000)
+                .toISOString().split('T')[0]; // Random date within last 30 days
+            return { clientName: `${firstName} ${lastName}`, contactPerson: `${firstName} ${lastName}`, email, phone, status, lastInteraction };
+        }
+
+        function populateClientTable() {
+            const tableBody = document.getElementById('client-table').querySelector('tbody');
+            tableBody.innerHTML = '';
+            for (let i = 0; i < 10; i++) {
+                const client = generateRandomClient();
+                const row = `
+                    <tr>
+                        <td>${client.clientName}</td>
+                        <td>${client.contactPerson}</td>
+                        <td>${client.email}</td>
+                        <td>${client.phone}</td>
+                        <td>${client.status}</td>
+                        <td>${client.lastInteraction}</td>
+                        <td><button>Generate Report</button></td>
+                        <td><input type="checkbox" class="notify-checkbox"></td>
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML('beforeend', row);
+            }
+        }
+
+        function sortTable(columnIndex) {
+            const table = document.getElementById('client-table');
+            const rows = Array.from(table.rows).slice(1);
+            const isNumeric = columnIndex === 3; // Phone numbers are numeric
+            const direction = table.rows[0].cells[columnIndex].getAttribute('data-sort') === 'asc' ? -1 : 1;
+            rows.sort((a, b) => {
+                const cellA = a.cells[columnIndex].innerText;
+                const cellB = b.cells[columnIndex].innerText;
+                if (isNumeric) {
+                    return direction * (parseFloat(cellA.replace(/[^0-9.]/g, '')) - parseFloat(cellB.replace(/[^0-9.]/g, '')));
+                } else {
+                    return direction * cellA.localeCompare(cellB);
                 }
-            }
+            });
+            table.tBodies[0].append(...rows);
+            table.rows[0].cells[columnIndex].setAttribute('data-sort', direction === 1 ? 'asc' : 'desc');
+        }
 
-            function sortTable(columnIndex) {
-                const table = document.getElementById('client-table');
-                const rows = Array.from(table.rows).slice(1);
-                const isNumeric = columnIndex === 3; // Phone numbers are numeric
-                const direction = table.rows[0].cells[columnIndex].getAttribute('data-sort') === 'asc' ? -1 : 1;
-                rows.sort((a, b) => {
-                    const cellA = a.cells[columnIndex].innerText;
-                    const cellB = b.cells[columnIndex].innerText;
-                    if (isNumeric) {
-                        return direction * (parseFloat(cellA.replace(/[^0-9.]/g, '')) - parseFloat(cellB.replace(/[^0-9.]/g, '')));
-                    } else {
-                        return direction * cellA.localeCompare(cellB);
-                    }
-                });
-                table.tBodies[0].append(...rows);
-                table.rows[0].cells[columnIndex].setAttribute('data-sort', direction === 1 ? 'asc' : 'desc');
-            }
+        function sendNotifications() {
+            const checkboxes = document.querySelectorAll('.notify-checkbox:checked');
+            const clientsToNotify = Array.from(checkboxes).map(checkbox => checkbox.closest('tr').cells[0].innerText);
+            alert(`Emails sent to: ${clientsToNotify.join(', ')}`);
+        }
 
-            function sendNotifications() {
-                const checkboxes = document.querySelectorAll('.notify-checkbox:checked');
-                const clientsToNotify = Array.from(checkboxes).map(checkbox => checkbox.closest('tr').cells[0].innerText);
-                alert(`Emails sent to: ${clientsToNotify.join(', ')}`);
-            }
-
+        document.addEventListener('DOMContentLoaded', () => {
             populateClientTable();
         });
     </script>
